@@ -1,41 +1,67 @@
+// Seleção dos elementos do DOM
 const campoCep = document.querySelector("#cep");
-/* document = documento html que está no navegador
-queryselector() = está procurando o elemento no caso #cep */
 
-const formulario = document.querySelector("form");
+// Elementos onde o resultado será exibido
+const campoLogradouro = document.querySelector("#logradouro");
+const campoBairro = document.querySelector("#bairro");
+const campoCidade = document.querySelector("#cidade");
+const campoEstado = document.querySelector("#estado");
+const campoResultadoCep = document.querySelector("#resultado-cep");
 
-formulario.addEventListener("submit", function(event) {
+// Escuta a digitação do usuário em tempo real
+campoCep.addEventListener("input", function() {
 
-    Event.preventDefault();
+    // Remove traços, pontos ou letras, deixando apenas números
+    const cepFormatado = campoCep.value.replace(/\D/g, "");
 
-    const cep = campoCep.value;
+    // Dispara a consulta apenas quando completar exatamente 8 dígitos
+    if (cepFormatado.length === 8) {
+        
+        // Opcional: Feedback visual de carregando
+        campoLogradouro.textContent = "Buscando...";
+        campoBairro.textContent = "Buscando...";
+        campoCidade.textContent = "Buscando...";
+        campoEstado.textContent = "Buscando...";
+        campoResultadoCep.textContent = "Buscando...";
 
-    console.log("CEP digitado:", cep);
+        const url = `https://viacep.com.br/ws/${cepFormatado}/json/`;
 
-    const cepFormatado = cep.replace("-", "");
+        fetch(url)
+            .then(function(resposta) {
+                return resposta.json();
+            })
+            .then(function(dados) {
 
-    const url = `https://viacep.com.br/ws/${cepFormatado}/json/`;
+                if (dados.erro) {
+                    alert("CEP não encontrado!");
+                    limparCampos();
+                    return;
+                }
 
-    console.log(url);
+                // Preenche os campos automaticamente
+                campoLogradouro.textContent = dados.logradouro || "Não informado";
+                campoBairro.textContent = dados.bairro || "Não informado";
+                campoCidade.textContent = dados.localidade;
+                campoEstado.textContent = dados.uf;
+                campoResultadoCep.textContent = dados.cep;
 
-    fetch(url)
-        .then(function(resposta){
-            
-            return resposta.json();
-
-        })
-        .then(function(dados){
-
-            campoLogradouro.textContent = dados.logradouro;
-            campoBairro.textContent = dados.bairro;
-            campoCidade.textContent = dados.localidade;
-            campoEstado.textContent = dados.uf;
-
-            campoResultadoCep.textContent = dados.cep;
-
-        });
-
+            })
+            .catch(function(erro) {
+                console.error("Erro na requisição:", erro);
+                alert("Erro ao buscar o CEP.");
+                limparCampos();
+            });
+    }
 });
+
+// Função auxiliar para limpar a exibição caso haja erro
+function limparCampos() {
+    campoLogradouro.textContent = "";
+    campoBairro.textContent = "";
+    campoCidade.textContent = "";
+    campoEstado.textContent = "";
+    campoResultadoCep.textContent = "";
+}
 
 /* addEventListener = o js vai observar o elemento e mandara ele fazer algo quando algo acontece
 event.preventDefault() = "navegador, não faça o comportamento padrão. eu vou cuidar disso." 
