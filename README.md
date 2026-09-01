@@ -1,85 +1,87 @@
-# Projeto de Consulta de CEP
+# Consulta de CEP
 
 ## Visão geral
 
-Este projeto é uma aplicação web simples para consultar endereços por CEP no Brasil. A interface permite que o usuário digite um CEP, a aplicação valida a entrada e consulta a API do ViaCEP para retornar informações como logradouro, bairro, cidade, estado e o próprio CEP informado.
+Este projeto é uma aplicação web simples desenvolvida em HTML, CSS e JavaScript para consultar informações de endereço a partir de um CEP brasileiro. A aplicação consome a API pública do ViaCEP e exibe automaticamente os dados do endereço correspondente.
 
-O objetivo principal é demonstrar o uso de HTML, CSS e JavaScript para consumir uma API pública e preencher os dados na tela de forma automática.
+O projeto foi criado como uma demonstração prática de consumo de APIs no front-end, com foco em simplicidade, clareza e facilidade de aprendizado.
+
+## Objetivo
+
+Permitir que o usuário informe um CEP e visualize em tela:
+
+- logradouro
+- bairro
+- cidade
+- estado
+- CEP consultado
 
 ## Funcionalidades
 
-- Digitação de CEP com validação automática
-- Remoção de caracteres não numéricos
-- Consulta automática quando o usuário digita 8 dígitos
-- Requisição à API do ViaCEP
-- Exibição dos dados retornados:
-  - Logradouro
-  - Bairro
-  - Cidade
-  - Estado
-  - CEP
-- Tratamento de erro para CEP inexistente ou falha na requisição
+- Digitação de CEP por meio de campo de texto
+- Validação automática para aceitar apenas números
+- Consulta automática ao completar 8 dígitos
+- Requisição à API ViaCEP
+- Exibição dinâmica dos resultados na interface
+- Mensagem de erro para CEP inválido ou inexistente
+- Limpeza automática dos campos em caso de falha
 
 ## Tecnologias utilizadas
 
 - HTML5
 - CSS3
 - JavaScript
-- API pública ViaCEP
+- API ViaCEP
 
 ## Estrutura do projeto
 
 ```text
 ATIVIDADESPESSOAIS/
 ├── README.md
-├── PROJETOAPI/
-│   ├── consultaCep/
-│   │   └── index.html
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       └── script.js
+├── .gitignore
+└── PROJETOAPI/
+    ├── consultaCep/
+    │   └── index.html
+    ├── css/
+    │   └── style.css
+    └── js/
+        └── script.js
 ```
 
-## Descrição dos arquivos
+## Descrição dos principais arquivos
 
-### README.md
-Arquivo de documentação do projeto, com instruções de uso e descrição geral.
+### [PROJETOAPI/consultaCep/index.html](PROJETOAPI/consultaCep/index.html)
+Arquivo principal da interface da aplicação. Ele contém o formulário, os campos de entrada e os elementos HTML em que os dados da consulta serão exibidos.
 
-### PROJETOAPI/consultaCep/index.html
-Arquivo principal da interface. Ele contém o formulário de entrada do CEP e os elementos que recebem os dados retornados pela API.
+### [PROJETOAPI/css/style.css](PROJETOAPI/css/style.css)
+Arquivo responsável pelo layout visual da página, incluindo cores, espaçamento, botões, formulário e estrutura geral.
 
-### PROJETOAPI/css/style.css
-Arquivo de estilos que define a aparência visual da página, como layout, cores, botões, formulário e rodapé.
-
-### PROJETOAPI/js/script.js
-Arquivo responsável pela lógica da aplicação:
+### [PROJETOAPI/js/script.js](PROJETOAPI/js/script.js)
+Arquivo que contém a lógica da aplicação. Ele:
 
 - captura o valor digitado pelo usuário
-- remove caracteres inválidos
-- dispara a consulta quando o CEP tem 8 dígitos
-- envia a requisição para a API
-- preenche os campos com os dados retornados
-- exibe alertas em caso de erro
+- remove caracteres não numéricos
+- verifica quando o CEP tem 8 dígitos
+- realiza a requisição para a API do ViaCEP
+- atualiza os campos com os dados retornados
+- trata erros e exibe alertas
 
-## Fluxo de funcionamento
+## Como funciona a aplicação
 
-1. O usuário digita o CEP no campo de entrada.
+1. O usuário digita um CEP no campo indicado.
 2. O JavaScript remove qualquer caractere que não seja número.
-3. Quando a entrada tiver 8 dígitos, a aplicação realiza uma requisição para a API do ViaCEP.
-4. A resposta da API é convertida em JSON.
-5. Se o CEP for válido, os dados são exibidos na tela.
-6. Se o CEP não existir ou houver erro de conexão, a aplicação informa o usuário e limpa os campos.
+3. Quando a entrada atingir 8 dígitos, a aplicação envia a requisição para a API.
+4. A API retorna um objeto JSON com os dados do endereço.
+5. Os dados são exibidos na interface sem recarregar a página.
+6. Se o CEP não existir ou houver algum problema na comunicação, o sistema informa o usuário e limpa os campos.
 
-## Como executar o projeto
+## Como executar
 
 ### Opção 1: abrir diretamente no navegador
 
-- Abra o arquivo [PROJETOAPI/consultaCep/index.html](PROJETOAPI/consultaCep/index.html) em um navegador.
+Abra o arquivo [PROJETOAPI/consultaCep/index.html](PROJETOAPI/consultaCep/index.html) no navegador.
 
-> Importante: como o projeto usa caminhos absolutos para CSS e JavaScript, a execução mais confiável é via um servidor local.
-
-### Opção 2: usar um servidor local
+### Opção 2: executar com servidor local
 
 No diretório raiz do projeto, execute:
 
@@ -87,34 +89,36 @@ No diretório raiz do projeto, execute:
 python -m http.server 8000
 ```
 
-Depois acesse:
+Depois acesse no navegador:
 
 ```text
 http://localhost:8000/PROJETOAPI/consultaCep/index.html
 ```
 
+> Essa segunda opção é recomendada porque a página usa caminhos para arquivos CSS e JS de forma mais confiável quando servida localmente.
+
 ## Exemplo de uso
 
 1. Acesse a página da aplicação.
-2. Digite um CEP válido, por exemplo: 01001000.
-3. A página exibirá automaticamente:
-   - Logradouro
-   - Bairro
-   - Cidade
-   - Estado
+2. Digite um CEP válido, como 01001000.
+3. A interface exibe automaticamente:
+   - logradouro
+   - bairro
+   - cidade
+   - estado
    - CEP
 
 ## Observações
 
 - A aplicação depende da disponibilidade da API do ViaCEP.
-- O projeto é uma demonstração acadêmica/estudo de front-end e consumo de API.
-- O código foi construído de forma simples e didática para facilitar aprendizado e manutenção.
+- O projeto é voltado para estudo e demonstração de consumo de API com JavaScript.
+- A estrutura é simples e fácil de entender para iniciantes em desenvolvimento web.
 
 ## Autor
 
 Jefferson Henrique de Oliveira Reis
 
-## Status do projeto
+## Status atual
 
-Em desenvolvimento / funcional para consulta básica de CEP.
+Projeto funcional para consulta básica de CEP e em constante possibilidade de melhorias.
 
